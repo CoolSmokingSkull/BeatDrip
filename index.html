@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BeatDrip</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/dice-icon.png">
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Scripts -->
+  <script type="module" src="app.js"></script>
+</head>
+<body class="default">
+  <!-- Fullscreen Button -->
+  <button id="fullscreen-button" aria-label="Toggle Fullscreen">⛶</button>
+
+  <!-- Animated Background Canvas -->
+  <canvas id="background-canvas"></canvas>
+
+  <!-- Header -->
+  <header>
+    <img src="assets/images/BeatDrip.png" alt="BeatDrip Logo" id="logo">
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <!-- Drum Pads View -->
+    <section id="drum-pads-view" class="view active">
+      <div id="drum-pads-container"></div>
+      <!-- Randomize Button -->
+      <button id="randomize-button" aria-label="Randomize Sounds">🎲</button>
+      <!-- Sliding Window -->
+      <div id="sliding-window">
+        <label for="volume-slider">Volume</label>
+        <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
+        <label for="pitch-slider">Pitch</label>
+        <input type="range" id="pitch-slider" min="0.5" max="2" step="0.01" value="1">
+        <!-- Additional sliders can be added here -->
+      </div>
+      <!-- Sliding Window Toggle Button -->
+      <button id="sliding-window-toggle" aria-label="Open Settings">⚙️</button>
+    </section>
+
+    <!-- Settings View -->
+    <section id="settings-view" class="view">
+      <div id="settings-drum-pads-container"></div>
+      <div id="sound-selection">
+        <input type="search" id="sound-search" placeholder="Search Sounds...">
+        <ul id="sound-list"></ul>
+        <button id="record-button">🎤 Record Sound</button>
+        <button id="confirm-button">✅ Confirm</button>
+      </div>
+      <div id="pad-setup-options">
+        <label for="pad-setup-select">Pad Setup:</label>
+        <select id="pad-setup-select">
+          <option value="4x4">4x4</option>
+          <option value="3x3">3x3</option>
+          <option value="6x6">6x6</option>
+          <!-- Additional options -->
+        </select>
+      </div>
+      <div id="color-theme-options">
+        <label for="color-theme-select">Color Theme:</label>
+        <select id="color-theme-select">
+          <option value="default">Default</option>
+          <option value="neon">Neon</option>
+          <option value="dark">Dark</option>
+          <!-- Additional options -->
+        </select>
+      </div>
+    </section>
+
+    <!-- Lab View -->
+    <section id="lab-view" class="view">
+      <!-- Content to be added later -->
+      <p>Lab features coming soon!</p>
+    </section>
+  </main>
+
+  <!-- Footer with Tabs -->
+  <footer>
+    <nav>
+      <button id="drum-pads-tab" class="tab active">Pads</button>
+      <button id="settings-tab" class="tab">Settings</button>
+      <button id="lab-tab" class="tab">Lab</button>
+    </nav>
+  </footer>
+</body>
+</html>
