@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>BeatDrip</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1">
   <!-- PWA Manifest -->
   <link rel="manifest" href="manifest.json">
   <!-- Favicon -->
@@ -11,6 +11,8 @@
   <!-- CSS -->
   <link rel="stylesheet" href="style.css">
   <!-- Scripts -->
+  <!-- Include Particles.js -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
   <script type="module" src="app.js"></script>
 </head>
 <body class="default">
@@ -19,6 +21,7 @@
 
   <!-- Animated Background Canvas -->
   <canvas id="background-canvas"></canvas>
+  <div id="particles-js"></div>
 
   <!-- Header -->
   <header>
@@ -30,6 +33,14 @@
     <!-- Drum Pads View -->
     <section id="drum-pads-view" class="view active">
       <div id="drum-pads-container"></div>
+      <!-- Recording Controls -->
+      <div id="recording-controls">
+        <button id="record-button" aria-label="Start Recording">⏺️</button>
+        <button id="playback-button" aria-label="Play Recording" disabled>▶️</button>
+        <span id="recording-timer">00:00</span>
+      </div>
+      <!-- Metronome Indicator -->
+      <div id="metronome-indicator"></div>
       <!-- Randomize Button -->
       <button id="randomize-button" aria-label="Randomize Sounds">🎲</button>
       <!-- Sliding Window -->
@@ -38,10 +49,33 @@
         <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.5">
         <label for="pitch-slider">Pitch</label>
         <input type="range" id="pitch-slider" min="0.5" max="2" step="0.01" value="1">
-        <!-- Additional sliders can be added here -->
+        <label for="quantize-select">Quantize:</label>
+        <select id="quantize-select">
+          <option value="none">None</option>
+          <option value="1/4">Quarter Notes</option>
+          <option value="1/8">Eighth Notes</option>
+          <option value="1/16">Sixteenth Notes</option>
+        </select>
+        <!-- Live Effects Controls -->
+        <label for="reverb-slider">Reverb</label>
+        <input type="range" id="reverb-slider" min="0" max="1" step="0.01" value="0">
+        <label for="delay-slider">Delay</label>
+        <input type="range" id="delay-slider" min="0" max="1" step="0.01" value="0">
       </div>
       <!-- Sliding Window Toggle Button -->
       <button id="sliding-window-toggle" aria-label="Open Settings">⚙️</button>
+    </section>
+
+    <!-- Sequencer View -->
+    <section id="sequencer-view" class="view">
+      <!-- Sequencer Grid and Controls -->
+      <div id="sequencer-container"></div>
+      <div id="sequencer-controls">
+        <button id="sequencer-play-button">▶️ Play</button>
+        <button id="sequencer-stop-button">⏹️ Stop</button>
+        <label for="sequencer-tempo">Tempo:</label>
+        <input type="number" id="sequencer-tempo" value="120" min="30" max="300">
+      </div>
     </section>
 
     <!-- Settings View -->
@@ -50,7 +84,8 @@
       <div id="sound-selection">
         <input type="search" id="sound-search" placeholder="Search Sounds...">
         <ul id="sound-list"></ul>
-        <button id="record-button">🎤 Record Sound</button>
+        <button id="record-button-settings">🎤 Record Sound</button>
+        <button id="upload-sound-button">⬆️ Upload Sound</button>
         <button id="confirm-button">✅ Confirm</button>
       </div>
       <div id="pad-setup-options">
@@ -59,7 +94,6 @@
           <option value="4x4">4x4</option>
           <option value="3x3">3x3</option>
           <option value="6x6">6x6</option>
-          <!-- Additional options -->
         </select>
       </div>
       <div id="color-theme-options">
@@ -68,15 +102,60 @@
           <option value="default">Default</option>
           <option value="neon">Neon</option>
           <option value="dark">Dark</option>
-          <!-- Additional options -->
+          <option value="sunset">Sunset</option>
+          <option value="ocean">Ocean</option>
+        </select>
+      </div>
+      <div id="custom-color-options">
+        <label for="primary-color-picker">Primary Color:</label>
+        <input type="color" id="primary-color-picker" value="#ffffff">
+        <label for="secondary-color-picker">Secondary Color:</label>
+        <input type="color" id="secondary-color-picker" value="#ffffff">
+      </div>
+      <!-- Advanced Settings -->
+      <div id="advanced-settings">
+        <h3>Advanced Audio Settings</h3>
+        <label for="buffer-size-select">Buffer Size:</label>
+        <select id="buffer-size-select">
+          <option value="512">512</option>
+          <option value="1024">1024</option>
+          <option value="2048">2048</option>
+        </select>
+        <label for="sample-rate-select">Sample Rate:</label>
+        <select id="sample-rate-select">
+          <option value="44100">44.1 kHz</option>
+          <option value="48000">48 kHz</option>
+        </select>
+      </div>
+      <!-- Language Selection -->
+      <div id="language-options">
+        <label for="language-select">Language:</label>
+        <select id="language-select">
+          <option value="en">English</option>
+          <!-- Additional languages -->
         </select>
       </div>
     </section>
 
     <!-- Lab View -->
     <section id="lab-view" class="view">
-      <!-- Content to be added later -->
-      <p>Lab features coming soon!</p>
+      <!-- Experimental Features -->
+      <div id="synthesizer">
+        <h3>Synthesizer</h3>
+        <!-- Synth controls -->
+      </div>
+      <div id="pattern-generator">
+        <h3>Pattern Generator</h3>
+        <!-- Pattern generator controls -->
+      </div>
+      <div id="collaborative-jamming">
+        <h3>Collaborative Jamming</h3>
+        <!-- Collaboration controls -->
+      </div>
+      <div id="ai-beat-suggestions">
+        <h3>AI Beat Suggestions</h3>
+        <!-- AI suggestions controls -->
+      </div>
     </section>
   </main>
 
@@ -84,6 +163,7 @@
   <footer>
     <nav>
       <button id="drum-pads-tab" class="tab active">Pads</button>
+      <button id="sequencer-tab" class="tab">Sequencer</button>
       <button id="settings-tab" class="tab">Settings</button>
       <button id="lab-tab" class="tab">Lab</button>
     </nav>

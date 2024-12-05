@@ -2,11 +2,13 @@
 
 import { initializeDrumPads } from './modules/pad.js';
 import { initializeSettings } from './modules/settings.js';
+import { initializeSequencer } from './modules/sequencer.js';
+import { initializeLab } from './modules/lab.js';
 import { AudioManager } from './modules/audioManager.js';
 import { UIManager } from './modules/uiManager.js';
 import { initializeBackgroundAnimation } from './modules/utils.js';
 
-// Initialize Audio Context for optimized audio playback
+// Initialize Audio Context
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
 
@@ -22,12 +24,21 @@ initializeDrumPads(audioManager, uiManager);
 // Initialize Settings View
 initializeSettings(audioManager, uiManager);
 
+// Initialize Sequencer View
+initializeSequencer(audioManager, uiManager);
+
+// Initialize Lab View
+initializeLab(audioManager, uiManager);
+
 // Initialize Background Animation
 initializeBackgroundAnimation();
 
 // Event Listeners for Tabs
 document.getElementById('drum-pads-tab').addEventListener('click', () => {
   uiManager.showView('drum-pads-view');
+});
+document.getElementById('sequencer-tab').addEventListener('click', () => {
+  uiManager.showView('sequencer-view');
 });
 document.getElementById('settings-tab').addEventListener('click', () => {
   uiManager.showView('settings-view');
@@ -48,12 +59,24 @@ fullscreenButton.addEventListener('click', () => {
   }
 });
 
+// Request Fullscreen on Load
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.documentElement.requestFullscreen) {
+    document.documentElement.requestFullscreen();
+  }
+});
+
 // Handle orientation changes
 window.addEventListener('orientationchange', () => {
   uiManager.adjustLayout();
 });
 
-// Register Service Worker for PWA functionality
+// Initialize Particles.js
+particlesJS.load('particles-js', 'assets/particles.json', function() {
+  console.log('Particles.js config loaded');
+});
+
+// Register Service Worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     navigator.serviceWorker.register('service-worker.js').then(

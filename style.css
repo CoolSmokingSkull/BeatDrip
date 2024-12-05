@@ -2,292 +2,393 @@
 
 /* Reset Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: transparent;
+  color: #fff;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  position: relative;
+  min-height: 100vh;
+  touch-action: manipulation;
+}
+
+body.default {
+  --primary-color: #ffffff;
+  --secondary-color: rgba(255, 255, 255, 0.1);
+}
+
+body.neon {
+  --primary-color: #39ff14;
+  --secondary-color: rgba(57, 255, 20, 0.1);
+}
+
+body.dark {
+  --primary-color: #f0f0f0;
+  --secondary-color: rgba(240, 240, 240, 0.1);
+}
+
+body.sunset {
+  --primary-color: #ff9a76;
+  --secondary-color: rgba(255, 154, 118, 0.1);
+}
+
+body.ocean {
+  --primary-color: #00bfff;
+  --secondary-color: rgba(0, 191, 255, 0.1);
+}
+
+/* Fullscreen Button */
+#fullscreen-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  padding: 10px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  z-index: 100;
+}
+
+/* Background Canvas */
+#background-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+#particles-js {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+/* Header */
+header {
+  text-align: center;
+  padding: 10px;
+  height: 80px;
+}
+
+#logo {
+  max-height: 60px;
+}
+
+/* Views */
+.view {
+  display: none;
+  padding: 10px;
+  height: calc(100% - 160px); /* Adjust for header and footer */
+  overflow: auto;
+}
+
+.view.active {
+  display: block;
+}
+
+/* Drum Pads */
+#drum-pads-container {
+  display: grid;
+  gap: 10px;
+  margin: 10px;
+  height: 100%;
+  width: 100%;
+}
+
+.drum-pad {
+  background: var(--secondary-color);
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.1s, transform 0.1s;
+  position: relative;
+  overflow: hidden;
+}
+
+.drum-pad.active {
+  background: var(--primary-color);
+  color: #000;
+  transform: scale(0.95);
+}
+
+.drum-pad .pad-label {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  font-size: 12px;
+  color: var(--primary-color);
+}
+
+.drum-pad.custom-color {
+  background: var(--pad-color);
+}
+
+.drum-pad .velocity-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--primary-color);
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+/* Recording Controls */
+#recording-controls {
+  position: fixed;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 100;
+}
+
+#record-button,
+#playback-button {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  padding: 15px;
+  border-radius: 50%;
+  margin: 0 10px;
+  font-size: 20px;
+}
+
+#record-button.recording {
+  background: red;
+}
+
+#recording-timer {
+  font-size: 18px;
+  color: var(--primary-color);
+}
+
+/* Metronome Indicator */
+#metronome-indicator {
+  position: fixed;
+  top: 90px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  opacity: 0.5;
+  animation: metronome-blink 1s infinite;
+}
+
+@keyframes metronome-blink {
+  0% { opacity: 0.5; }
+  50% { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* Randomize Button */
+#randomize-button {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  padding: 15px;
+  border-radius: 50%;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border: none;
+  z-index: 100;
+  font-size: 20px;
+}
+
+/* Sliding Window */
+#sliding-window {
+  position: fixed;
+  left: -220px;
+  top: 0;
+  width: 200px;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.9);
+  transition: left 0.3s ease-in-out;
+  padding: 20px;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+#sliding-window.open {
+  left: 0;
+}
+
+#sliding-window-toggle {
+  position: fixed;
+  bottom: 100px;
+  left: 20px;
+  transform: none;
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border-radius: 50%;
+  padding: 15px;
+  border: none;
+  z-index: 100;
+  font-size: 20px;
+}
+
+/* Footer Tabs */
+footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 80px;
+  background: #111;
+}
+
+nav {
+  display: flex;
+  height: 100%;
+}
+
+.tab {
+  flex: 1;
+  padding: 15px;
+  background: #111;
+  text-align: center;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+}
+
+.tab.active {
+  background: #333;
+}
+
+/* Settings View Styles */
+#settings-drum-pads-container {
+  display: grid;
+  gap: 5px;
+  margin: 10px;
+  height: auto;
+}
+
+.settings-drum-pad {
+  background: var(--secondary-color);
+  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+  aspect-ratio: 1 / 1;
+  transition: border 0.3s;
+  position: relative;
+}
+
+.settings-drum-pad.selected {
+  border: 2px solid #f39c12;
+  animation: borderPulse 2s infinite;
+}
+
+@keyframes borderPulse {
+  0% {
+    border-color: #f39c12;
   }
-  
-  /* Body Styles */
-  body {
-    font-family: 'Roboto', sans-serif;
-    background-color: transparent;
-    color: #fff;
-    overflow: hidden;
-    user-select: none;
-    -webkit-user-select: none;
-    -webkit-tap-highlight-color: transparent;
-    position: relative;
-    min-height: 100vh;
+  50% {
+    border-color: #e74c3c;
   }
-  
-  body.default {
-    --primary-color: #ffffff;
-    --secondary-color: rgba(255, 255, 255, 0.1);
+  100% {
+    border-color: #f39c12;
   }
-  
-  body.neon {
-    --primary-color: #39ff14;
-    --secondary-color: rgba(57, 255, 20, 0.1);
-  }
-  
-  body.dark {
-    --primary-color: #f0f0f0;
-    --secondary-color: rgba(240, 240, 240, 0.1);
-  }
-  
-  /* Fullscreen Button */
-  #fullscreen-button {
-    position: fixed;
-    top: 10px;
-    right: 10px;
+}
+
+/* Sound Selection */
+#sound-selection {
+  margin-top: 20px;
+}
+
+#sound-search {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+#sound-list {
+  max-height: 200px;
+  overflow-y: auto;
+  list-style: none;
+  padding: 0;
+}
+
+#sound-list li {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #555;
+}
+
+#sound-list li:hover {
+  background: #333;
+}
+
+/* Pad Setup Options */
+#pad-setup-options,
+#color-theme-options,
+#custom-color-options,
+#advanced-settings,
+#language-options {
+  margin-top: 20px;
+}
+
+select,
+input[type='color'] {
+  width: 100%;
+  padding: 10px;
+  background: #222;
+  color: #fff;
+  border: 1px solid #555;
+}
+
+/* Additional Styles */
+input[type='range'] {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-bottom: 5px;
+  display: block;
+  color: var(--primary-color);
+}
+
+button {
+  cursor: pointer;
+}
+
+input,
+select,
+button {
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  #fullscreen-button,
+  #randomize-button,
+  #sliding-window-toggle,
+  #record-button,
+  #playback-button {
     padding: 10px;
-    border-radius: 50%;
-    background: var(--secondary-color);
-    color: var(--primary-color);
-    border: none;
-    z-index: 100;
-  }
-  
-  /* Background Canvas */
-  #background-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-  }
-  
-  /* Header */
-  header {
-    text-align: center;
-    padding: 10px;
-    height: 80px;
-  }
-  
-  #logo {
-    max-height: 60px;
-  }
-  
-  /* Views */
-  .view {
-    display: none;
-    padding: 10px;
-    height: calc(100% - 160px); /* Adjust for header and footer */
-    overflow: auto;
-  }
-  
-  .view.active {
-    display: block;
-  }
-  
-  /* Drum Pads */
-  #drum-pads-container {
-    display: grid;
-    gap: 10px;
-    margin: 10px;
-    height: 100%;
-    width: 100%;
-  }
-  
-  .drum-pad {
-    background: var(--secondary-color);
-    border-radius: 10px;
-    border: 2px solid var(--primary-color);
-    aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.1s, transform 0.1s;
-  }
-  
-  .drum-pad.active {
-    background: var(--primary-color);
-    color: #000;
-    transform: scale(0.95);
-  }
-  
-  /* Randomize Button */
-  #randomize-button {
-    position: fixed;
-    bottom: 80px;
-    right: 20px;
-    padding: 15px;
-    border-radius: 50%;
-    background: var(--secondary-color);
-    color: var(--primary-color);
-    border: none;
-    z-index: 100;
-    font-size: 20px;
-  }
-  
-  /* Sliding Window */
-  #sliding-window {
-    position: fixed;
-    right: -220px;
-    top: 0;
-    width: 200px;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    transition: right 0.3s ease-in-out;
-    padding: 20px;
-    z-index: 100;
-    overflow-y: auto;
-  }
-  
-  #sliding-window.open {
-    right: 0;
-  }
-  
-  #sliding-window-toggle {
-    position: fixed;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    background: var(--secondary-color);
-    color: var(--primary-color);
-    border-radius: 50%;
-    padding: 15px;
-    border: none;
-    z-index: 100;
-    font-size: 20px;
-  }
-  
-  /* Footer Tabs */
-  footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    height: 80px;
-    background: #111;
-  }
-  
-  nav {
-    display: flex;
-    height: 100%;
-  }
-  
-  .tab {
-    flex: 1;
-    padding: 15px;
-    background: #111;
-    text-align: center;
-    color: #fff;
-    border: none;
-    font-size: 18px;
-  }
-  
-  .tab.active {
-    background: #333;
-  }
-  
-  /* Settings View Styles */
-  #settings-drum-pads-container {
-    display: grid;
-    gap: 5px;
-    margin: 10px;
-    height: auto;
-  }
-  
-  .settings-drum-pad {
-    background: var(--secondary-color);
-    border-radius: 10px;
-    border: 2px solid var(--primary-color);
-    aspect-ratio: 1 / 1;
-    transition: border 0.3s;
-  }
-  
-  .settings-drum-pad.selected {
-    border: 2px solid #f39c12;
-    animation: borderPulse 2s infinite;
-  }
-  
-  @keyframes borderPulse {
-    0% {
-      border-color: #f39c12;
-    }
-    50% {
-      border-color: #e74c3c;
-    }
-    100% {
-      border-color: #f39c12;
-    }
-  }
-  
-  /* Sound Selection */
-  #sound-selection {
-    margin-top: 20px;
-  }
-  
-  #sound-search {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #222;
-    color: #fff;
-    border: 1px solid #555;
-  }
-  
-  #sound-list {
-    max-height: 200px;
-    overflow-y: auto;
-    list-style: none;
-    padding: 0;
-  }
-  
-  #sound-list li {
-    padding: 10px;
-    cursor: pointer;
-    border-bottom: 1px solid #555;
-  }
-  
-  #sound-list li:hover {
-    background: #333;
-  }
-  
-  /* Pad Setup Options */
-  #pad-setup-options,
-  #color-theme-options {
-    margin-top: 20px;
-  }
-  
-  select {
-    width: 100%;
-    padding: 10px;
-    background: #222;
-    color: #fff;
-    border: 1px solid #555;
-  }
-  
-  /* Additional Styles */
-  input[type='range'] {
-    width: 100%;
-    margin-bottom: 20px;
-  }
-  
-  label {
-    margin-bottom: 5px;
-    display: block;
-    color: var(--primary-color);
-  }
-  
-  button {
-    cursor: pointer;
-  }
-  
-  input,
-  select,
-  button {
     font-size: 16px;
   }
-  
-  /* Responsive Design */
-  @media (max-width: 600px) {
-    #fullscreen-button,
-    #randomize-button,
-    #sliding-window-toggle {
-      padding: 10px;
-      font-size: 16px;
-    }
-  }
-  
+}
