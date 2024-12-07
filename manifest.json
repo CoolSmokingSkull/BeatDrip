@@ -9,12 +9,12 @@
   "display_override": ["fullscreen"],
   "icons": [
     {
-      "src": "assets/images/dice-icon.png",
+      "src": "assets/images/BD-icon192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "assets/images/dice-icon.png",
+      "src": "assets/images/BD-icon512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
